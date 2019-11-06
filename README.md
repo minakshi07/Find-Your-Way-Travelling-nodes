@@ -5,7 +5,8 @@ This project has algorithms for finding path between the start and target nodes,
 
 To Run This Project type:
 
-```npm i
+```
+npm i
 
 npm start
 ```

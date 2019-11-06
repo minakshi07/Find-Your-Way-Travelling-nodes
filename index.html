@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>MP Project</title>
+    <title>Find Your Way: </title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link id="cssTheme" rel="stylesheet" href="public/styling/cssBasic.css"/>
   </head>
@@ -16,6 +16,9 @@
              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Algorithms
              <span class="caret"></span></a>
              <ul class="dropdown-menu">
+               <!--
+                 Tracking algorithms dropdown menu
+               -->
                <li id='startButtonDijkstra'><a href="#">Dijkstra's Algorithm</a></li>
                <li id='startButtonAStar2'><a href="#">A* Search</a></li>
                <li id='startButtonAStar'><a href="#">Swarm Algorithm</a></li>
@@ -34,6 +37,9 @@
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Maze
             <span class="caret"></span></a>
             <ul class="dropdown-menu">
+              <!--
+                 Random maze dropdown menu
+               -->
               <li id='startButtonCreateMazeTwo'></li>
               <li id='startButtonCreateMazeThree'></li>
               <li id='startButtonCreateMazeFour'></li>
@@ -42,6 +48,9 @@
               <li id='startStairDemonstration'></li>
             </ul>
           </li>
+          <!--
+                 Navigation bar
+               -->
            <li id='startButtonAddObject'><a href="#">Add Bomb</a></li>
            <li id='startButtonStart'><button id="actualStartButton" class="btn btn-default navbar-btn" type="button">Visualize!</button></li>
            <li id='startButtonClearBoard'><a href="#">Clear Board</a></li>
@@ -60,6 +69,9 @@
      </nav>
    </div>
    <div id="tutorial">
+     <!--
+                One page info about the project
+               -->
     <h3>Travel with nodes and visualize Algorithms</h3>
     <h6>Let's visualize!</h6>
     <p>The start node and target nodes are shown in the grid. To start select an algorithm, and click on visualize. You can add walls, add weights to the nodes, add a bomb. Press Start!</p>
@@ -74,6 +86,9 @@
       <table id='board'></table>
     </div>
   </body>
+  <!--
+             Loading bootstrap and NodeJS scripts
+               -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src='public/browser/bundle.js'></script>

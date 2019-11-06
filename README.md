@@ -11,5 +11,8 @@ npm i
 npm start
 ```
 
-The server will be up and running on localhost:1337/
+The server will be up and running on
+```
+localhost:1337/
+```
 

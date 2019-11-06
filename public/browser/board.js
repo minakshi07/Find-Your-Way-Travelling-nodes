@@ -1,3 +1,4 @@
+//Creating white board canvas with grid system
 const Node = require("./node");
 const launchAnimations = require("./animations/launchAnimations");
 const launchInstantAnimations = require("./animations/launchInstantAnimations");

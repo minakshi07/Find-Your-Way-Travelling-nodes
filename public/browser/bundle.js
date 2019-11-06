@@ -1,11 +1,13 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+//Importing algorithm code from 'browser/pathfindingAlgorithms'
 const weightedSearchAlgorithm = require("../pathfindingAlgorithms/weightedSearchAlgorithm");
 const unweightedSearchAlgorithm = require("../pathfindingAlgorithms/unweightedSearchAlgorithm");
 
+//Start function for board game.
 function launchAnimations(board, success, type, object, algorithm, heuristic) {
   let nodes = object ? board.objectNodesToAnimate.slice(0) : board.nodesToAnimate.slice(0);
   let speed = board.speed === "fast" ?
-    0 : board.speed === "average" ?
+    0 : board.speed === "average" ? //Addition for diferent speeds of visualization.
       100 : 500;
   let shortestNodes;
   function timeout(index) {
@@ -14,7 +16,7 @@ function launchAnimations(board, success, type, object, algorithm, heuristic) {
         if (object) {
           board.objectNodesToAnimate = [];
           if (success) {
-            board.addShortestPath(board.object, board.start, "object");
+            board.addShortestPath(board.object, board.start, "object"); //Making an object called shortest path in case of different algorithms
             board.clearNodeStatuses();
             let newSuccess;
             if (board.currentAlgorithm === "bidirectional") {
@@ -30,7 +32,7 @@ function launchAnimations(board, success, type, object, algorithm, heuristic) {
             launchAnimations(board, newSuccess, type);
             return;
           } else {
-            console.log("Failure.");
+            console.log("Failure."); //Report if path not found.
             board.reset();
             board.toggleButtons();
             return;
@@ -38,7 +40,7 @@ function launchAnimations(board, success, type, object, algorithm, heuristic) {
         } else {
           board.nodesToAnimate = [];
           if (success) {
-            if (document.getElementById(board.target).className !== "visitedTargetNodeBlue") {
+            if (document.getElementById(board.target).className !== "visitedTargetNodeBlue") { //Color of visited nodes
               document.getElementById(board.target).className = "visitedTargetNodeBlue";
             }
             if (board.isObject) {
@@ -64,7 +66,7 @@ function launchAnimations(board, success, type, object, algorithm, heuristic) {
         }
       } else if (index === 0) {
         if (object) {
-          document.getElementById(board.start).className = "visitedStartNodePurple";
+          document.getElementById(board.start).className = "visitedStartNodePurple";  //In case of bomb, the first part is purple.
         } else {
           if (document.getElementById(board.start).className !== "visitedStartNodePurple") {
             document.getElementById(board.start).className = "visitedStartNodeBlue";
@@ -83,6 +85,7 @@ function launchAnimations(board, success, type, object, algorithm, heuristic) {
     }, speed);
   }
 
+  //Traversing each node of the grid-system
   function change(currentNode, previousNode, bidirectional) {
     let currentHTMLNode = document.getElementById(currentNode.id);
     let relevantClassNames = ["start", "target", "object", "visitedStartNodeBlue", "visitedStartNodePurple", "visitedObjectNode", "visitedTargetNodePurple", "visitedTargetNodeBlue"];
@@ -108,7 +111,7 @@ function launchAnimations(board, success, type, object, algorithm, heuristic) {
       }
     }
   }
-
+//Adding timeout failsafe:. If visualization running for too long, or path is blocked. Timeout of 40 seconds
   function shortestPathTimeout(index) {
     setTimeout(function () {
       if (index === shortestNodes.length){
@@ -140,7 +143,7 @@ function launchAnimations(board, success, type, object, algorithm, heuristic) {
       shortestPathTimeout(index + 1);
     }, 40);
   }
-
+//Basics of traversing nodes.
   function shortestPathChange(currentNode, previousNode) {
     let currentHTMLNode = document.getElementById(currentNode.id);
     if (type === "unweighted") {
@@ -177,7 +180,7 @@ module.exports = launchAnimations;
 },{"../pathfindingAlgorithms/unweightedSearchAlgorithm":15,"../pathfindingAlgorithms/weightedSearchAlgorithm":16}],2:[function(require,module,exports){
 const weightedSearchAlgorithm = require("../pathfindingAlgorithms/weightedSearchAlgorithm");
 const unweightedSearchAlgorithm = require("../pathfindingAlgorithms/unweightedSearchAlgorithm");
-
+//Function for dynamic changes to initial and final nodes.
 function launchInstantAnimations(board, success, type, object, algorithm, heuristic) {
   let nodes = object ? board.objectNodesToAnimate.slice(0) : board.nodesToAnimate.slice(0);
   let shortestNodes;
@@ -230,7 +233,7 @@ function launchInstantAnimations(board, success, type, object, algorithm, heuris
       shortestPathChange(shortestNodes[j], shortestNodes[j - 1]);
     }
   }
-  board.reset();
+  board.reset(); //Clear board button
   if (object) {
     shortestPathChange(board.nodes[board.target], shortestNodes[j - 1]);
     board.objectShortestPathNodesToAnimate = [];
@@ -293,7 +296,8 @@ function launchInstantAnimations(board, success, type, object, algorithm, heuris
 module.exports = launchInstantAnimations;
 
 },{"../pathfindingAlgorithms/unweightedSearchAlgorithm":15,"../pathfindingAlgorithms/weightedSearchAlgorithm":16}],3:[function(require,module,exports){
-function mazeGenerationAnimations(board) {
+//Generating maze animations
+  function mazeGenerationAnimations(board) {
   let nodes = board.wallsToAnimate.slice(0);
   let speed = board.speed === "fast" ?
     5 : board.speed === "average" ?
@@ -331,7 +335,7 @@ const weightsDemonstration = require("./mazeAlgorithms/weightsDemonstration");
 const simpleDemonstration = require("./mazeAlgorithms/simpleDemonstration");
 const bidirectional = require("./pathfindingAlgorithms/bidirectional");
 const getDistance = require("./getDistance");
-
+//Importing board UI from board.js
 function Board(height, width) {
   this.height = height;
   this.width = width;
@@ -365,7 +369,7 @@ Board.prototype.initialise = function() {
   this.addEventListeners();
   this.toggleTutorialButtons();
 };
-
+//Create grid system
 Board.prototype.createGrid = function() {
   let tableHTML = "";
   for (let r = 0; r < this.height; r++) {
@@ -374,13 +378,13 @@ Board.prototype.createGrid = function() {
     for (let c = 0; c < this.width; c++) {
       let newNodeId = `${r}-${c}`, newNodeClass, newNode;
       if (r === Math.floor(this.height / 2) && c === Math.floor(this.width / 4)) {
-        newNodeClass = "start";
+        newNodeClass = "start"; //Initial node
         this.start = `${newNodeId}`;
       } else if (r === Math.floor(this.height / 2) && c === Math.floor(3 * this.width / 4)) {
-        newNodeClass = "target";
+        newNodeClass = "target"; //Final nodes
         this.target = `${newNodeId}`;
       } else {
-        newNodeClass = "unvisited";
+        newNodeClass = "unvisited"; //Rest of the nodes are unvisited
       }
       newNode = new Node(newNodeId, newNodeClass);
       currentArrayRow.push(newNode);
@@ -393,7 +397,7 @@ Board.prototype.createGrid = function() {
   let board = document.getElementById("board");
   board.innerHTML = tableHTML;
 };
-
+//Listen continuously for changes to initial, final points
 Board.prototype.addEventListeners = function() {
   let board = this;
   for (let r = 0; r < board.height; r++) {
@@ -468,7 +472,7 @@ Board.prototype.getNode = function(id) {
   let c = parseInt(coordinates[1]);
   return this.boardArray[r][c];
 };
-
+//Code for adding bombs
 Board.prototype.changeSpecialNode = function(currentNode) {
   let element = document.getElementById(currentNode.id), previousElement;
   if (this.previouslySwitchedNode) previousElement = document.getElementById(this.previouslySwitchedNode.id);
@@ -520,7 +524,7 @@ Board.prototype.changeNormalNode = function(currentNode) {
     }
   }
 };
-
+//Animation code for drawing shortest path
 Board.prototype.drawShortestPath = function(targetNodeId, startNodeId, object) {
   let currentNode;
   if (this.currentAlgorithm !== "bidirectional") {
@@ -834,7 +838,7 @@ Board.prototype.clearPath = function(clickedButton) {
     }
   });
 };
-
+//Experimental code for clearing obstacles only
 Board.prototype.clearWalls = function() {
   this.clearPath("clickedButton");
   Object.keys(this.nodes).forEach(id => {
@@ -847,7 +851,7 @@ Board.prototype.clearWalls = function() {
     }
   });
 }
-
+//Experimental code for clearing weights only
 Board.prototype.clearWeights = function() {
   Object.keys(this.nodes).forEach(id => {
     let currentNode = this.nodes[id];
@@ -1159,7 +1163,7 @@ Board.prototype.toggleButtons = function() {
       this.clearPath("clickedButton");
       this.changeStartNodeImages();
     }
-
+//Node-points for each button in dropdown menus
     document.getElementById("startButtonDijkstra").onclick = () => {
       document.getElementById("startButtonStart").innerHTML = '<button id="actualStartButton" class="btn btn-default navbar-btn" type="button">Visualize Dijkstra\'s!</button>'
       this.currentAlgorithm = "dijkstra";
@@ -1422,7 +1426,8 @@ window.onkeyup = (e) => {
 }
 
 },{"./animations/launchAnimations":1,"./animations/launchInstantAnimations":2,"./animations/mazeGenerationAnimations":3,"./getDistance":5,"./mazeAlgorithms/otherMaze":6,"./mazeAlgorithms/otherOtherMaze":7,"./mazeAlgorithms/recursiveDivisionMaze":8,"./mazeAlgorithms/simpleDemonstration":9,"./mazeAlgorithms/stairDemonstration":10,"./mazeAlgorithms/weightsDemonstration":11,"./node":12,"./pathfindingAlgorithms/astar":13,"./pathfindingAlgorithms/bidirectional":14,"./pathfindingAlgorithms/unweightedSearchAlgorithm":15,"./pathfindingAlgorithms/weightedSearchAlgorithm":16}],5:[function(require,module,exports){
-function getDistance(nodeOne, nodeTwo) {
+//Code for traversing each node in grid
+  function getDistance(nodeOne, nodeTwo) {
   let currentCoordinates = nodeOne.id.split("-");
   let targetCoordinates = nodeTwo.id.split("-");
   let x1 = parseInt(currentCoordinates[0]);
@@ -1480,6 +1485,7 @@ function recursiveDivisionMaze(board, rowStart, rowEnd, colStart, colEnd, orient
   if (rowEnd < rowStart || colEnd < colStart) {
     return;
   }
+  //Code to traverse while avoiding  walls.
   if (!surroundingWalls) {
     let relevantIds = [board.start, board.target];
     if (board.object) relevantIds.push(board.object);
@@ -1939,7 +1945,7 @@ function closestNode(nodes, unvisitedNodes) {
   unvisitedNodes.splice(index, 1);
   return currentClosest;
 }
-
+//Update neighbouring nodes with visited/unvisited status
 function updateNeighbors(nodes, node, boardArray, target, name, start, heuristic) {
   let neighbors = getNeighbors(node.id, nodes, boardArray);
   for (let neighbor of neighbors) {

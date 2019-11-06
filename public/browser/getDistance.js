@@ -1,3 +1,4 @@
+//Solving maths cordinates to get shortest Path
 function getDistance(nodeOne, nodeTwo) {
   let currentCoordinates = nodeOne.id.split("-");
   let targetCoordinates = nodeTwo.id.split("-");
